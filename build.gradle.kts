@@ -37,13 +37,12 @@ dependencies {
 
     // DB
 	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
-	//runtimeOnly("com.mysql:mysql-connector-j")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.testcontainers:junit-jupiter")
-	testImplementation("org.testcontainers:mysql")
+	testImplementation("org.testcontainers:mariadb:1.19.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
