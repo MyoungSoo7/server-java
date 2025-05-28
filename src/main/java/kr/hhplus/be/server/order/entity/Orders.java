@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "orders")
 public class Orders {
 
@@ -23,6 +25,7 @@ public class Orders {
     private Long id;
     private Long customerId;
     private Long productId;
+    private int productPrice;
     private int quantity;
     private String orderDate;
     private String status; // 예: "주문 접수", "배송 중", "배송 완료", "취소됨"
