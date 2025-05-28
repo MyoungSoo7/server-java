@@ -5,8 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
+@Table(name = "orders")
 public class Orders {
 
     @Id
@@ -22,8 +30,4 @@ public class Orders {
     private String deliveryDate; // 예상 배송 날짜
     private String orderCreatedAt; // 주문 생성 시간
     private String orderUpdatedAt; // 주문 수정 시간
-    // Getters and Setters
-
-
-
 }

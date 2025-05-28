@@ -23,10 +23,10 @@ import static org.mockito.BDDMockito.given;
 
 
 @ExtendWith(MockitoExtension.class)
-class PointServiceImplTest {
+class PointServiceTest {
 
     @InjectMocks
-    private PointServiceImpl pointService;
+    private PointService pointService;
 
     // 행동
     @Mock

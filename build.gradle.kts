@@ -23,6 +23,7 @@ repositories {
 	mavenCentral()
 }
 
+// 라이브러리 버전 호환성 관리
 dependencyManagement {
 	imports {
 		mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.0")
