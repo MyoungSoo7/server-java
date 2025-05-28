@@ -30,10 +30,6 @@ class PaymentServiceTest {
 	private OrderRepository orderRepository;
 	@Mock
 	private PaymentRepository paymentRepository;
-
-	@Mock
-	private PaymentService paymentService;
-
 	// 고객이 상품들을 등록하고, 포인트로 결제했다.
 	Customers customers = new Customers();
 	Products products = new Products();
@@ -67,17 +63,6 @@ class PaymentServiceTest {
 		payments.setPaymentPrice(10000);
 
 	}
-
-
-
-	@Test
-	@DisplayName("결제 처리")
-	void processPayment(Customers customers, Products products, Orders orders) {
-
-
-
-	}
-
 
 
 	@Test

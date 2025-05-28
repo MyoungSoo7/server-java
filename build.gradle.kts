@@ -37,6 +37,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.projectlombok:lombok:1.18.28")
 	annotationProcessor("org.projectlombok:lombok:1.18.28")
+	implementation("org.modelmapper:modelmapper:3.1.0")
 
     // DB
 	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
