@@ -1,8 +1,10 @@
 package kr.hhplus.be.server.customer.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.*;
+import kr.hhplus.be.server.payment.entity.CustomerPointHistory;
 import lombok.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    // 고객의 포인트 히스토리 목록
     private int point;
     private String name;
     private String phoneNumber;

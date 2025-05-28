@@ -29,13 +29,16 @@ public class PointService {
 	}
 
 	public CustomerPointHistoryDto selectUserPointHistory(long customerId) {
-		return customerPointHistoryRepository.selectPointById(customerId);
+		return customerPointHistoryRepository.findByCustomerId(customerId);
 	}
 
 
 	//잔액 충전 및 포인트 충전 정책 ( 충전시 500 이상, 최대 천만)
 	public void charge(long customerId, int amount) {
-		int point = customerRepository.findById(customerId).get().getPoint();
+		Customers customer = customerRepository.findById(customerId)
+			.orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+
+		int point = customer.getPoint();
 
 		if (amount < MIN_USE_CHARGE_POINT) {
 			throw new IllegalArgumentException("충전할 포인트는 500 이상이어야 합니다.");
@@ -71,7 +74,11 @@ public class PointService {
 
 	//잔액 사용
 	public void use(long customerId, int amount) {
-		int point = customerRepository.findById(customerId).get().getPoint();
+
+		Customers customer = customerRepository.findById(customerId)
+			.orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+
+		int point = customer.getPoint();
 
 		if (amount < MIN_USE_CHARGE_POINT) {
 			throw new IllegalArgumentException("사용할 포인트는 500 이상이어야 합니다.");
