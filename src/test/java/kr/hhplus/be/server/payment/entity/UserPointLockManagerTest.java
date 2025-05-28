@@ -1,12 +1,12 @@
 package kr.hhplus.be.server.payment.entity;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.concurrent.locks.ReentrantLock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import kr.hhplus.be.server.config.UserPointLockManager;
 
 public class UserPointLockManagerTest {
 

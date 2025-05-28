@@ -1,75 +1,111 @@
 package kr.hhplus.be.server.payment.service;
 
-import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+
 import org.springframework.stereotype.Service;
 
-import kr.hhplus.be.server.customer.service.CustomerService;
-import kr.hhplus.be.server.payment.database.PointHistoryTable;
-import kr.hhplus.be.server.payment.database.UserPointTable;
-import kr.hhplus.be.server.payment.dto.PaymentDto;
-import kr.hhplus.be.server.payment.entity.PointHistory;
-import kr.hhplus.be.server.payment.entity.TransactionType;
-import kr.hhplus.be.server.payment.entity.UserPoint;
-import kr.hhplus.be.server.payment.entity.UserPointLockManager;
-import kr.hhplus.be.server.payment.repository.PaymentRepository;
-import kr.hhplus.be.server.product.service.ProductService;
+import kr.hhplus.be.server.customer.entity.Customers;
+import kr.hhplus.be.server.customer.repository.CustomerRepository;
+import kr.hhplus.be.server.payment.dto.CustomerPointHistoryDto;
+import kr.hhplus.be.server.payment.entity.CustomerPointHistory;
+import kr.hhplus.be.server.payment.dto.TransactionType;
+import kr.hhplus.be.server.config.UserPointLockManager;
+import kr.hhplus.be.server.payment.repository.CustomerPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PointService   {
+public class PointService {
 
-    private final UserPointTable userPointTable;
-    private final PointHistoryTable pointHistoryTable;
-    private final UserPointLockManager lockManager;
+	private final CustomerRepository customerRepository;
+	private final CustomerPointHistoryRepository customerPointHistoryRepository;
+	private final UserPointLockManager lockManager;
+	private static final long MAX_POINT = 10_000_000;
+	private static final long MIN_USE_CHARGE_POINT = 500L;
 
-    //식별자를 통해 해당 사용자의 잔액을 조회
-    public UserPoint selectUserPoint(long id) {
-        return userPointTable.selectById(id);
-    }
+	//식별자를 통해 해당 사용자의 잔액을 조회
+	public int selectUserPoint(long customerId) {
+		return customerRepository.findById(customerId).get().getPoint();
+	}
 
-    //결제에 사용될 금액을 충전하는 API
-    // => 사용자 식별자 및 충전할 금액을 받아 잔액을 충전?
-    public UserPoint chargeUserPoint(long id, long amount) {
-        ReentrantLock lock = lockManager.getLock(id);
-        lock.lock();
-        // 충전시 순서대로 충전되도록 lock
-        try {
+	public CustomerPointHistoryDto selectUserPointHistory(long customerId) {
+		return customerPointHistoryRepository.selectPointById(customerId);
+	}
 
-            UserPoint currentUser = userPointTable.selectById(id);
-            // 충전 금액을 가산 후 충전
-            UserPoint validUserPoint = currentUser.charge(amount);
-            // 충전요금 금액에 대한 검사
-            UserPoint result = userPointTable.insertOrUpdate(validUserPoint.id(), validUserPoint.point());
-            // 충전 후 금액이 적합한지 검사
-            pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
-            return result;
-        } finally {
-            lock.unlock();
-        }
 
-    }
+	//잔액 충전 및 포인트 충전 정책 ( 충전시 500 이상, 최대 천만)
+	public void charge(long customerId, int amount) {
+		int point = customerRepository.findById(customerId).get().getPoint();
 
-    public UserPoint useUserPoint(long id, long usePoint) {
-        ReentrantLock lock = lockManager.getLock(id);
-        lock.lock();
-        try {
-            UserPoint currentUserPoint = userPointTable.selectById(id);
-            // 충전요금 금액에 대한 검사
-            UserPoint validUserPoint = currentUserPoint.use(usePoint);
-            UserPoint result = userPointTable.insertOrUpdate(validUserPoint.id(), validUserPoint.point()  );
-            pointHistoryTable.insert(validUserPoint.id(), usePoint, TransactionType.USE, System.currentTimeMillis());
-            return result;
-        } finally {
-            lock.unlock();
-        }
-    }
+		if (amount < MIN_USE_CHARGE_POINT) {
+			throw new IllegalArgumentException("충전할 포인트는 500 이상이어야 합니다.");
+		}
+		if (point + amount > MAX_POINT) {
+			throw new IllegalArgumentException("최대 포인트는 " + MAX_POINT + "입니다.");
+		}
 
-    public List<PointHistory> selectUserPointHistory(long id) {
+		ReentrantLock lock = lockManager.getLock(customerId);
+		lock.lock();
+		// 충전시 순서대로 충전되도록 lock
+		try {
+
+			// 충전 잔액 저장
+			Customers customers = customerRepository.findById(customerId).get();
+			customers.setPoint(point + amount);
+			customerRepository.save(customers);
+
+			// 충전이력 남김
+			CustomerPointHistory customerPointHistory = CustomerPointHistory.builder()
+				.customerId(customerId)
+				.point(amount)
+				.type(TransactionType.CHARGE)
+				.updateMillis(System.currentTimeMillis())
+				.build();
+
+			customerPointHistoryRepository.save(customerPointHistory);
+		} finally {
+			lock.unlock();
+		}
+
+	}
+
+	//잔액 사용
+	public void use(long customerId, int amount) {
+		int point = customerRepository.findById(customerId).get().getPoint();
+
+		if (amount < MIN_USE_CHARGE_POINT) {
+			throw new IllegalArgumentException("사용할 포인트는 500 이상이어야 합니다.");
+		}
+		if (point < amount) {
+			throw new IllegalArgumentException("포인트가 부족합니다.");
+		}
+
+		ReentrantLock lock = lockManager.getLock(customerId);
+		lock.lock();
+		// 충전시 순서대로 충전되도록 lock
+		try {
+			// 잔액 사용 저장
+			Customers customers = customerRepository.findById(customerId).get();
+			customers.setPoint(point - amount);
+			customerRepository.save(customers);
+
+			// 충전이력 남김
+			CustomerPointHistory customerPointHistory = CustomerPointHistory.builder()
+				.customerId(customerId)
+				.point(amount)
+				.type(TransactionType.USE)
+				.updateMillis(System.currentTimeMillis())
+				.build();
+
+			customerPointHistoryRepository.save(customerPointHistory);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+
+    /*public List<PointHistory> selectUserPointHistory(long id) {
         return pointHistoryTable.selectAllByUserId(id);
-    }
-
-
+    }*/
 
 }

@@ -16,7 +16,7 @@ public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long point;
+    private int point;
     private String name;
     private String phoneNumber;
     private String address1;

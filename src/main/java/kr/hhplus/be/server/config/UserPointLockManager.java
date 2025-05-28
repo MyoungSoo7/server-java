@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.entity;
+package kr.hhplus.be.server.config;
 
 import org.springframework.stereotype.Component;
 

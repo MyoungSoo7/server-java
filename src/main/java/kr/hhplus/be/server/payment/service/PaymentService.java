@@ -16,11 +16,6 @@ public class PaymentService {
 	private final OrderService orderService;
 	private final PointService pointService;
 
-	//잔액 충전 / 조회
-	public void selectUser(){
-
-
-	}
 
 
 }
