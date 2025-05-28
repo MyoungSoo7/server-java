@@ -18,42 +18,24 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PointService implements PointService {
+public class PointService   {
 
     private final UserPointTable userPointTable;
     private final PointHistoryTable pointHistoryTable;
     private final UserPointLockManager lockManager;
-    private final PaymentRepository paymentRepository;
-    private final CustomerService customerService;
-    private final ProductService productService;
-
-
-    private static final long MAX_POINT = 100_000;
-    private static final long MIN_USE_CHARGE_POINT = 1L;
 
     //식별자를 통해 해당 사용자의 잔액을 조회
-    @Override
     public UserPoint selectUserPoint(long id) {
         return userPointTable.selectById(id);
     }
 
     //결제에 사용될 금액을 충전하는 API
     // => 사용자 식별자 및 충전할 금액을 받아 잔액을 충전?
-    @Override
     public UserPoint chargeUserPoint(long id, long amount) {
         ReentrantLock lock = lockManager.getLock(id);
         lock.lock();
         // 충전시 순서대로 충전되도록 lock
         try {
-            PaymentDto payments = paymentRepository.findByUserId(id);
-
-           /* if (amount < MIN_USE_CHARGE_POINT) {
-                throw new IllegalArgumentException("충전할 포인트는 1 이상이어야 합니다.");
-            }
-            if (payments.getPa + amount > MAX_POINT) {
-                throw new IllegalArgumentException("최대 포인트는 " + MAX_POINT + "입니다.");
-            }
-            return new UserPoint(id, point + amount, System.currentTimeMillis());*/
 
             UserPoint currentUser = userPointTable.selectById(id);
             // 충전 금액을 가산 후 충전
@@ -69,7 +51,6 @@ public class PointService implements PointService {
 
     }
 
-    @Override
     public UserPoint useUserPoint(long id, long usePoint) {
         ReentrantLock lock = lockManager.getLock(id);
         lock.lock();
@@ -85,7 +66,6 @@ public class PointService implements PointService {
         }
     }
 
-    @Override
     public List<PointHistory> selectUserPointHistory(long id) {
         return pointHistoryTable.selectAllByUserId(id);
     }

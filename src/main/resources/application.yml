@@ -3,14 +3,14 @@ spring:
     name: hhplus
   profiles:
     active: local
-  datasource:
-    name: HangHaePlusDataSource
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      maximum-pool-size: 3
-      connection-timeout: 10000
-      max-lifetime: 60000
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#  datasource:
+#    name: HangHaePlusDataSource
+#    type: com.zaxxer.hikari.HikariDataSource
+#    hikari:
+#      maximum-pool-size: 3
+#      connection-timeout: 10000
+#      max-lifetime: 60000
+#    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     open-in-view: false
     generate-ddl: false

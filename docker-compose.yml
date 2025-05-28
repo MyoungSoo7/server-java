@@ -1,16 +1,16 @@
 version: '3'
 services:
   mysql:
-    image: mysql:8.0
+    image: mariadb:latest
     ports:
-      - "3306:3306"
+      - "3307:3307"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=application
-      - MYSQL_PASSWORD=application
-      - MYSQL_DATABASE=hhplus
+      - MYSQL_ROOT_PASSWORD=1005
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1005
+      - MYSQL_DATABASE=api
     volumes:
-      - ./data/mysql/:/var/lib/mysql
+      - ./data/mariadb/:/var/lib/mysql
 
 networks:
   default:

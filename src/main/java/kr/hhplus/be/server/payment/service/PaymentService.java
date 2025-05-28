@@ -18,7 +18,7 @@ public class PaymentService {
 
 	//잔액 충전 / 조회
 	public void selectUser(){
-		customerService.selectCustomer();
+
 
 	}
 
