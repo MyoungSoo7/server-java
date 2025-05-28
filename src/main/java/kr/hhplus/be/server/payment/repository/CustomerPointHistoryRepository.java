@@ -7,6 +7,6 @@ import kr.hhplus.be.server.payment.entity.CustomerPointHistory;
 
 public interface CustomerPointHistoryRepository extends JpaRepository<CustomerPointHistory, Long> {
 
-	CustomerPointHistoryDto selectPointById(long customerId);
+	CustomerPointHistoryDto findByCustomerId(long customerId);
 
 }
