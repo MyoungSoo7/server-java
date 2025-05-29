@@ -24,7 +24,6 @@ public class OrderService {
 	private final OrderRepository orderRepository;
 	private final ProductService productService;
 
-
 	public Orders createOrder(Long customerId, Long productId, int quantity) {
 		// 상품 정보 확인
 		ProductDto product = productService.selectProductById(productId);
@@ -41,10 +40,16 @@ public class OrderService {
 		Orders order = Orders.builder()
 			.customerId(customerId)
 			.productId(productId)
+			.productPrice(product.getProductPrice())
 			.quantity(quantity)
 			.totalPrice(totalPrice)
 			.isPaid(false) // 초기값: 결제 전 상태
 			.createdAt(String.valueOf(LocalDateTime.now()))
+			.paymentMethod("P")
+			.deliveryAddress("서울시 강남구")
+			.deliveryDate(String.valueOf(LocalDateTime.now().plusDays(1)))
+			.createdAt( String.valueOf( LocalDateTime.now() ))
+			.orderUpdatedAt(String.valueOf( LocalDateTime.now() ))
 			.build();
 
 		// 상품 재고 감소
@@ -52,5 +57,10 @@ public class OrderService {
 
 		// 주문 저장
 		return orderRepository.save(order);
+	}
+
+	public void saveOrder(Orders order) {
+		// 주문 저장
+		orderRepository.save(order);
 	}
 }

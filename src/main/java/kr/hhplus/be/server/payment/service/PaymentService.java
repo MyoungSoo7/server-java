@@ -4,6 +4,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import kr.hhplus.be.server.customer.dto.CustomerDto;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.service.CustomerService;
 import kr.hhplus.be.server.order.entity.Orders;
@@ -21,54 +22,58 @@ public class PaymentService {
 	private final OrderService orderService;
 	private final PointService pointService;
 	private final CouponService couponService;
-	private static final String TOPIC = "order_topic";
 	private final KafkaTemplate<String, String> kafkaTemplate;
 
+	private static final String TOPIC = "order_topic";
+	private static final String INSUFFICIENT_BALANCE_MESSAGE = "잔액이 부족합니다.";
+	private static final String INVALID_COUPON_MESSAGE = "유효하지 않은 쿠폰입니다.";
+
+
 	@Transactional
-	public void payOrder(Long customerId, Long orderId,  int quantity, Long couponId) {
-		// 사용자의 잔액 정보 확인
-		Customers user = customerService.getUserById(customerId)
-			.orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+	public void payOrderByPoint(Long customerId, Long orderId,  int quantity, Long couponId) {
+		Orders order = orderService.createOrder(customerId, orderId, quantity);
 
-		// 주문 정보 확인
-		Orders order = orderService.createOrder(customerId,orderId,quantity);
+		// 총 결제 금액 계산 (쿠폰 할인 포함)
+		int totalPrice = calculateTotalPriceWithDiscount(order.getTotalPrice(), couponId, customerId);
 
-		if (order.isPaid()) {
-			throw new IllegalArgumentException("이미 결제 완료된 주문입니다.");
-		}
-		int totalPrice = order.getTotalPrice(); // 원래 주문 금액
+		// 결제 및 주문 상태 갱신
+		deductUserPointsAndMarkOrderPaid(customerId, totalPrice, order);
 
-		// 쿠폰 사용 여부 체크 및 할인 적용
-		if (couponId != null) {
-			Coupons coupon = couponService.getUserCoupons(couponId)
-				.orElseThrow(() -> new IllegalArgumentException("유효하지 않은 쿠폰입니다."));
+		// Kafka를 통해 주문 데이터 전송
+		publishOrderToKafka(order);
 
-			// 쿠폰 할인율 적용
-			int discount = couponService.calculateDiscount(coupon, totalPrice);
-			totalPrice -= discount;
-
-			// 쿠폰 사용 처리
-			couponService.useCoupon(couponId, customerId);
-		}
-
-		// 잔액 확인 및 결제 진행
-		if (user.getPoint() < totalPrice) {
-			throw new IllegalArgumentException("잔액이 부족합니다.");
-		}
-
-		// 포인트 사용 (잔액 차감 /결제완료)
-		pointService.use(user.getId(), totalPrice);
-		// 결제 완료 처리
-		order.setPaid(true);
-
-		// 결제 성공 시 주문 정보 전송
-		sendOrderToPlatform(order);
 	}
 
-	public void sendOrderToPlatform(Orders order) {
+	private int calculateTotalPriceWithDiscount(int originalPrice, Long couponId, Long customerId) {
+		if (couponId == null) {
+			return originalPrice;
+		}
+		Coupons coupon = couponService.getUserCoupons(couponId)
+			.orElseThrow(() -> new IllegalArgumentException(INVALID_COUPON_MESSAGE));
+		couponService.useCoupon(couponId, customerId);
+		return originalPrice - couponService.calculateDiscount(coupon, originalPrice);
+	}
+
+	private void deductUserPointsAndMarkOrderPaid(Long customerId, int totalPrice, Orders order) {
+		validatePayment(customerId, totalPrice);
+		pointService.use(customerId, totalPrice);
+		// 주문 상태 결재완료 및 저장
+		order.setPaid(true); 
+		orderService.saveOrder(order);
+	}
+
+
+	private void validatePayment(Long customerId, int totalPrice) {
+		CustomerDto customer = customerService.getUserById(customerId);
+		if (customer.getPoint() < totalPrice) {
+			throw new IllegalArgumentException(INSUFFICIENT_BALANCE_MESSAGE);
+		}
+	}
+
+
+	private void publishOrderToKafka(Orders order) {
 		// Kafka에 메시지 전송
 		kafkaTemplate.send(TOPIC, order.toString());
-
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
 import kr.hhplus.be.server.payment.dto.CustomerPointHistoryDto;
@@ -34,6 +35,7 @@ public class PointService {
 
 
 	//잔액 충전 및 포인트 충전 정책 ( 충전시 500 이상, 최대 천만)
+	@Transactional
 	public void charge(long customerId, int amount) {
 		Customers customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new IllegalArgumentException("Customer not found"));
@@ -73,6 +75,7 @@ public class PointService {
 	}
 
 	//잔액 사용
+	@Transactional
 	public void use(long customerId, int amount) {
 
 		Customers customer = customerRepository.findById(customerId)
