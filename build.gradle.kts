@@ -39,7 +39,6 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok:1.18.28")
 	implementation("org.modelmapper:modelmapper:3.1.0")
 	implementation("org.springframework.kafka:spring-kafka")
-	implementation("org.springframework.boot:spring-boot-starter-amqp")
     // DB
 	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
 

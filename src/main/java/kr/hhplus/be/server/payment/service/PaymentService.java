@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.payment.service;
 
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -9,7 +10,9 @@ import kr.hhplus.be.server.order.entity.Orders;
 import kr.hhplus.be.server.order.service.OrderService;
 import kr.hhplus.be.server.payment.entity.Coupons;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -18,7 +21,8 @@ public class PaymentService {
 	private final OrderService orderService;
 	private final PointService pointService;
 	private final CouponService couponService;
-	private final DataPlatformClient dataPlatformClient;
+	private static final String TOPIC = "order_topic";
+	private final KafkaTemplate<String, String> kafkaTemplate;
 
 	@Transactional
 	public void payOrder(Long customerId, Long orderId,  int quantity, Long couponId) {
@@ -57,8 +61,14 @@ public class PaymentService {
 		// 결제 완료 처리
 		order.setPaid(true);
 
-		// 결제 성공 시 데이터 플랫폼에 주문 정보 전송
-		dataPlatformClient.sendOrderToPlatform(order);
+		// 결제 성공 시 주문 정보 전송
+		sendOrderToPlatform(order);
+	}
+
+	public void sendOrderToPlatform(Orders order) {
+		// Kafka에 메시지 전송
+		kafkaTemplate.send(TOPIC, order.toString());
+
 	}
 
 }
