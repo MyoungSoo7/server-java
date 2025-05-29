@@ -20,18 +20,15 @@ public class OrderService {
 	private final OrderRepository orderRepository;
 
 	public Orders createOrder(Long customerId, Long productId, int quantity) {
-		// 상품 정보 확인
+		// 상품 재고 확인 후 주문 생성 시 재고 감소
 		ProductDto product = validateProductStock(productId, quantity);
-		// 주문 생성
 		Orders order = buildOrder(customerId, productId, quantity, product);
-		// 상품 재고 감소
 		productService.updateProductStock(productId, quantity);
-		// 주문 저장
 		return orderRepository.save(order);
 	}
 
 	private ProductDto validateProductStock(Long productId, int quantity) {
-		ProductDto productDto = productService.selectProductById(productId);
+		ProductDto productDto = productService.getProductById(productId);
 		if (productDto.getProductStock() < quantity) {
 			throw new IllegalArgumentException("상품 재고가 부족합니다.");
 		}
@@ -42,7 +39,7 @@ public class OrderService {
 		CustomerDto customer = customerService.getUserById(customerId);
 
 		int totalPrice = productDto.getProductPrice() * quantity;
-		LocalDateTime now = LocalDateTime.now(); // 동일한 시간 기준 사용을 위해 변수로 저장
+		LocalDateTime now = LocalDateTime.now();
 
 		return Orders.builder()
 			.customerId(customerId)
@@ -50,7 +47,7 @@ public class OrderService {
 			.productPrice(productDto.getProductPrice())
 			.quantity(quantity)
 			.totalPrice(totalPrice)
-			.isPaid(false)  
+			.isPaid(false)
 			.createdAt(now.toString())
 			.paymentMethod("P")
 			.deliveryAddress(
