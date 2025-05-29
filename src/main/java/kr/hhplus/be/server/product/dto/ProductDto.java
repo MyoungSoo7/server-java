@@ -12,6 +12,7 @@ public class ProductDto {
 	private String productCategory;
 	private int productPrice;
 	private int productStock;
+	private int totalSold;
 	private boolean productIsActive;
 	private String productCreatedAt;
 	private String productUpdatedAt;
