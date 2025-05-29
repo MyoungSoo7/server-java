@@ -38,9 +38,6 @@ public class ProductService {
 	}
 
 	// 최근 3일간 가장 많이 팔린 상위 5개 상품 정보 조회
-	// TODO: 통계 데이터를 실시간으로 계산하는 것은 성능상의 부담이 될 수 있으니 캐싱(예: Redis)을 활용하여 반복적인 요청 처리 성능을 개선할 수 있도록 합니다.
-	// TODO: 상품 판매 통계는 일정 주기로 업데이트하여 최신 데이터를 유지하는 방식을 고려할 수 있습니다.
-
     @Cacheable(value = "topSellingProducts", key = "#root.methodName")
 	public List<ProductDto> getTopSellingProductsInLast3Days() {
 		LocalDateTime threeDaysAgo = LocalDateTime.now().minusDays(3);
