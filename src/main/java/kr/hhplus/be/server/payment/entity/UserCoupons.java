@@ -4,8 +4,17 @@ import java.util.Date;
 
 import jakarta.persistence.*;
 import kr.hhplus.be.server.customer.entity.Customers;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "userCoupons")
 public class UserCoupons{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,7 +22,7 @@ public class UserCoupons{
 
 	@ManyToOne
 	@JoinColumn(name = "customerId", nullable = false)
-	private Customers user; // 사용자 연관 관계
+	private Customers customers; // 사용자 연관 관계
 
 	@ManyToOne
 	@JoinColumn(name = "couponId", nullable = false)
