@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.dto.CustomerDto;
-import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.service.CustomerService;
 import kr.hhplus.be.server.order.entity.Orders;
 import kr.hhplus.be.server.order.service.OrderService;
@@ -62,14 +61,12 @@ public class PaymentService {
 		orderService.saveOrder(order);
 	}
 
-
 	private void validatePayment(Long customerId, int totalPrice) {
 		CustomerDto customer = customerService.getUserById(customerId);
 		if (customer.getPoint() < totalPrice) {
 			throw new IllegalArgumentException(INSUFFICIENT_BALANCE_MESSAGE);
 		}
 	}
-
 
 	private void publishOrderToKafka(Orders order) {
 		// Kafka에 메시지 전송
