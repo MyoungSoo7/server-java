@@ -10,5 +10,5 @@ import kr.hhplus.be.server.payment.entity.UserCoupons;
 
 @Repository
 public interface UserCouponsRepository extends JpaRepository<UserCoupons, Long> {
-	 
+
 }
