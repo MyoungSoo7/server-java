@@ -2,6 +2,8 @@ package kr.hhplus.be.server.payment.service;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
 import kr.hhplus.be.server.payment.dto.CouponType;
@@ -64,5 +66,34 @@ public class CouponService {
     // 보유 쿠폰 목록 조회 API 를 작성합니다.
 	public Optional<Coupons> getUserCoupons(Long customerId) {
 		return couponRepository.findById(customerId);
+	}
+
+	public int calculateDiscount(Coupons coupon, int totalPrice) {
+		if (coupon.getCouponType().equals(CouponType.DISCOUNT)) {
+			// 정액 할인
+			return coupon.getCouponPrice();
+		} else if (coupon.getCouponType().equals(CouponType.DISCOUNT_RATE)) {
+			// 정률 할인
+			return (totalPrice * coupon.getCouponDiscountRate()) / 100;
+		}
+		throw new IllegalArgumentException("알 수 없는 쿠폰 유형입니다.");
+	}
+
+	@Transactional
+	public void useCoupon(Long couponId, Long userId) {
+		UserCoupons coupon = userCouponRepository.findById(couponId)
+			.orElseThrow(() -> new IllegalArgumentException("유효하지 않은 쿠폰입니다."));
+
+		if (coupon.isUsed()) {
+			throw new IllegalArgumentException("이미 사용된 쿠폰입니다.");
+		}
+
+		Customers customer = customerRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+
+		// 쿠폰 사용 처리
+		coupon.setUsed(true);
+		coupon.setCustomers(customer); // 누구에게 사용되었는지 저장(옵션)
+		userCouponRepository.save(coupon);
 	}
 }
