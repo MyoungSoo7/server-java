@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.service;
+package kr.hhplus.be.server.payment.domain.service;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
-import kr.hhplus.be.server.payment.dto.CustomerPointHistoryDto;
-import kr.hhplus.be.server.payment.entity.CustomerPointHistory;
-import kr.hhplus.be.server.payment.dto.TransactionType;
+import kr.hhplus.be.server.payment.application.dto.CustomerPointHistoryDto;
+import kr.hhplus.be.server.payment.domain.entity.CustomerPointHistory;
+import kr.hhplus.be.server.payment.application.dto.TransactionType;
 import kr.hhplus.be.server.config.UserPointLockManager;
-import kr.hhplus.be.server.payment.repository.CustomerPointHistoryRepository;
+import kr.hhplus.be.server.payment.domain.repository.CustomerPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service

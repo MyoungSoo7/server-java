@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.controller;
+package kr.hhplus.be.server.payment.adapter.inbound;
 
 import java.util.Optional;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hhplus.be.server.payment.entity.Coupons;
-import kr.hhplus.be.server.payment.service.CouponService;
+import kr.hhplus.be.server.payment.domain.entity.Coupons;
+import kr.hhplus.be.server.payment.domain.service.CouponService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

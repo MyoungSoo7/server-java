@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.service;
+package kr.hhplus.be.server.payment.domain.service;
 
 import java.util.Optional;
 
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
-import kr.hhplus.be.server.payment.dto.CouponType;
-import kr.hhplus.be.server.payment.entity.Coupons;
-import kr.hhplus.be.server.payment.entity.UserCoupons;
-import kr.hhplus.be.server.payment.repository.CouponRepository;
-import kr.hhplus.be.server.payment.repository.UserCouponsRepository;
+import kr.hhplus.be.server.payment.application.dto.CouponType;
+import kr.hhplus.be.server.payment.domain.entity.Coupons;
+import kr.hhplus.be.server.payment.domain.entity.UserCoupons;
+import kr.hhplus.be.server.payment.domain.repository.CouponRepository;
+import kr.hhplus.be.server.payment.domain.repository.UserCouponsRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service

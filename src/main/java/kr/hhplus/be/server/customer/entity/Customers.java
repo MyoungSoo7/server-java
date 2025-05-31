@@ -1,10 +1,8 @@
 package kr.hhplus.be.server.customer.entity;
 
 import java.util.Date;
-import java.util.List;
 
 import jakarta.persistence.*;
-import kr.hhplus.be.server.payment.entity.CustomerPointHistory;
 import lombok.*;
 
 @Entity

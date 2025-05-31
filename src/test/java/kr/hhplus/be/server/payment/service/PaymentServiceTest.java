@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.payment.service;
 
+import kr.hhplus.be.server.payment.domain.service.PaymentService;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;

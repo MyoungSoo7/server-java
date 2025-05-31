@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.controller;
+package kr.hhplus.be.server.payment.adapter.outbound;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hhplus.be.server.payment.dto.CustomerPointHistoryDto;
-import kr.hhplus.be.server.payment.entity.CustomerPointHistory;
-import kr.hhplus.be.server.payment.service.PointService;
+import kr.hhplus.be.server.payment.application.dto.CustomerPointHistoryDto;
+import kr.hhplus.be.server.payment.domain.service.PointService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

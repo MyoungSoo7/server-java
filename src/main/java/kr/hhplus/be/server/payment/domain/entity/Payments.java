@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.entity;
+package kr.hhplus.be.server.payment.domain.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

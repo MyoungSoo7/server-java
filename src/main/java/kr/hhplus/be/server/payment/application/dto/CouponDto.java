@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.dto;
+package kr.hhplus.be.server.payment.application.dto;
 
 import java.util.Date;
 
