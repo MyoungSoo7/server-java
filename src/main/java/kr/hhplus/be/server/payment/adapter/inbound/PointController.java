@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.adapter.outbound;
+package kr.hhplus.be.server.payment.adapter.inbound;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
