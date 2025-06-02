@@ -21,7 +21,7 @@ public class ProductController {
 	// 최근 3일간 가장 많이 팔린 상위 5개 상품 조회
 	@GetMapping("/top-selling")
 	public ResponseEntity<List<ProductDto>> getTopSellingProducts() {
-		List<ProductDto> topSellingProducts = productService.getTop5SellingProductsLast3Days();
+		List<ProductDto> topSellingProducts = productService.getTopSellingProductsInLast3Days();
 		return ResponseEntity.ok(topSellingProducts);
 	}
 }

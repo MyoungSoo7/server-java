@@ -21,6 +21,18 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+#  redis:
+#    host: localhost
+#    port: 6379
+#    password:
+#    timeout: 2000
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+#        max-wait: -1
+
   jpa:
     open-in-view: false
     generate-ddl: false
