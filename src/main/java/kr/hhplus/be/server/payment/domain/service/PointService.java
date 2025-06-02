@@ -7,15 +7,16 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
-import kr.hhplus.be.server.payment.application.dto.CustomerPointHistoryDto;
+import kr.hhplus.be.server.payment.domain.dto.CustomerPointHistoryDto;
 import kr.hhplus.be.server.payment.domain.entity.CustomerPointHistory;
-import kr.hhplus.be.server.payment.application.dto.TransactionType;
+import kr.hhplus.be.server.payment.domain.dto.TransactionType;
 import kr.hhplus.be.server.config.UserPointLockManager;
-import kr.hhplus.be.server.payment.domain.repository.CustomerPointHistoryRepository;
+import kr.hhplus.be.server.payment.port.outbound.CustomerPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+//엔터티 객체의 비즈니스 로직을 조합하거나 처리
 public class PointService {
 
 	private final CustomerRepository customerRepository;

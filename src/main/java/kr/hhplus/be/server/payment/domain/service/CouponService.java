@@ -7,15 +7,16 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
-import kr.hhplus.be.server.payment.application.dto.CouponType;
+import kr.hhplus.be.server.payment.domain.dto.CouponType;
 import kr.hhplus.be.server.payment.domain.entity.Coupons;
 import kr.hhplus.be.server.payment.domain.entity.UserCoupons;
-import kr.hhplus.be.server.payment.domain.repository.CouponRepository;
-import kr.hhplus.be.server.payment.domain.repository.UserCouponsRepository;
+import kr.hhplus.be.server.payment.port.outbound.CouponRepository;
+import kr.hhplus.be.server.payment.port.outbound.UserCouponsRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+//엔터티 객체의 비즈니스 로직을 조합하거나 처리
 public class CouponService {
 
 	private static final String COUPON_NOT_FOUND = "존재하지 않는 쿠폰입니다.";
