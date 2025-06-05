@@ -20,10 +20,10 @@ public class CustomerPointHistory {
 
 	@Id
 	@GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
-	long id;
-	long customerId;
-	int point;
-	TransactionType type;
-	long updateMillis;
+	private long id;
+	private long customerId;
+	private int point;
+	private TransactionType type;
+	private long updateMillis;
 
 }

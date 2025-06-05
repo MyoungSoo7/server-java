@@ -1,57 +1,112 @@
-# 📦 클래스 다이어그램
+# 📦 클래스 다이어그램 📦
 
 ```mermaid
 
 classDiagram
-    class User {
-        +Long id
-        +int balance
+    class Customers {
+        -Long id
+        -int point          
+        -String name
+        -String phoneNumber
+        -String address1
+        -String address2
+        -String email
+        -Date birthDate
+        -String createdAt
+        -String updatedAt
     }
 
-    class Product {
-        +Long id
-        +String name
-        +int price
-        +int stock
+    class Products {
+        -Long id
+        -String productName
+        -String productDescription
+        -String productImageUrl
+        -String productCategory
+        -int productPrice
+        -int productStock
+        -boolean productIsActive
+        -String productCreatedAt
+        -String productUpdatedAt
+    }
+    
+    class Orders {
+        -Long id
+        -Long customerId
+        -Long productId
+        -int productPrice
+        -int quantity
+        -int totalPrice
+        -boolean isPaid
+        -String orderDate
+        -String status
+        -String deliveryAddress
+        -String paymentMethod
+        -String deliveryDate
+        -String createdAt
+        -String orderUpdatedAt
+    } 
+
+     class Coupons {
+        -Long id
+        -int couponPrice
+        -int couponDiscountRate
+        -int issuedCount
+        -int quota
+        -String couponName
+        -String couponDescription
+        -String couponStatus
+        -String couponType
+        -Date couponStartDate
+        -Date couponEndDate
+    }
+    
+      class Points {
+        -long id
+        -long customerId
+        -int point
+        -TransactionType type
+        -long updateMillis
+    }
+    
+     class CustomerPointHistory {
+        -long id
+        -long customerId
+        -int point
+        -TransactionType type
+        -long updateMillis
+    }
+    
+     class Payments {
+        -Long id
+        -Long userId
+        -Long productId
+        -Long orderId
+        -int paymentPrice
+        -String paymentMethod = "P"
+        -String paymentStatus
+        -String paymentDate
+        -String paymentAmount
+        -String paymentCreatedAt
+        -String paymentUpdatedAt
     }
 
-    class Coupon {
-        +Long id
-        +User user
-        +int discountRate
-        +boolean used
-        +LocalDateTime issuedAt
-        +LocalDateTime usedAt
+    class UserCoupons {
+        -Long id
+        -Customers customers
+        -Coupons coupon
+        -boolean isUsed
+        -Date issueDate
+        -Date usageDate
+        -Date expiryDate
     }
+    
+    UserCoupons --> Customers : 사용자 연관 관계
+    UserCoupons --> Coupons : 쿠폰 연관 관계
 
-    class Order {
-        +Long id
-        +User user
-        +int totalPrice
-        +int finalPrice
-        +LocalDateTime orderedAt
-        +Coupon coupon
-    }
-
-    class OrderItem {
-        +Long id
-        +Order order
-        +Product product
-        +int quantity
-        +int unitPrice
-    }
-
-    class OrderEventLog {
-        +Long id
-        +Order order
-        +String status
-        +LocalDateTime lastAttemptAt
-    }
-
-    User "1" --> "*" Coupon : 보유
-    User "1" --> "*" Order : 주문
-    Order "1" --> "*" OrderItem : 포함
-    OrderItem "*" --> "1" Product : 항목
-    Order "1" --> "0..1" Coupon : 사용
-    Order "1" --> "1" OrderEventLog : 이벤트로그
+    Customers "1" --> "*" Orders : 주문
+    Customers "1" --> "*" UserCoupons : 보유    
+    Orders "1" --> "*" Products : 포함
+    Orders "1" --> "0..1" Coupons : 사용
+    Orders "1" --> "1" Points : 결제
+  
 ```
