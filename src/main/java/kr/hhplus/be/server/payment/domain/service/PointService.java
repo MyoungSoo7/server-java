@@ -1,20 +1,22 @@
-package kr.hhplus.be.server.payment.service;
+package kr.hhplus.be.server.payment.domain.service;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
-import kr.hhplus.be.server.payment.dto.CustomerPointHistoryDto;
-import kr.hhplus.be.server.payment.entity.CustomerPointHistory;
-import kr.hhplus.be.server.payment.dto.TransactionType;
+import kr.hhplus.be.server.payment.domain.dto.CustomerPointHistoryDto;
+import kr.hhplus.be.server.payment.domain.entity.CustomerPointHistory;
+import kr.hhplus.be.server.payment.domain.dto.TransactionType;
 import kr.hhplus.be.server.config.UserPointLockManager;
-import kr.hhplus.be.server.payment.repository.CustomerPointHistoryRepository;
+import kr.hhplus.be.server.payment.port.outbound.CustomerPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+//엔터티 객체의 비즈니스 로직을 조합하거나 처리
 public class PointService {
 
 	private final CustomerRepository customerRepository;
@@ -34,6 +36,7 @@ public class PointService {
 
 
 	//잔액 충전 및 포인트 충전 정책 ( 충전시 500 이상, 최대 천만)
+	@Transactional
 	public void charge(long customerId, int amount) {
 		Customers customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new IllegalArgumentException("Customer not found"));
@@ -73,6 +76,7 @@ public class PointService {
 	}
 
 	//잔액 사용
+	@Transactional
 	public void use(long customerId, int amount) {
 
 		Customers customer = customerRepository.findById(customerId)

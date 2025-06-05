@@ -38,8 +38,13 @@ dependencies {
 	implementation("org.projectlombok:lombok:1.18.28")
 	annotationProcessor("org.projectlombok:lombok:1.18.28")
 	implementation("org.modelmapper:modelmapper:3.1.0")
+	implementation("org.springframework.kafka:spring-kafka")
+	implementation("org.springframework.boot:spring-boot-starter-cache")
+	implementation("org.ehcache:ehcache:3.10.6")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.redisson:redisson-spring-boot-starter:3.27.2")
 
-    // DB
+	// DB
 	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
 
     // Test

@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.controller;
+package kr.hhplus.be.server.payment.port.inbound;
 
 import java.util.Optional;
 
@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hhplus.be.server.payment.entity.Coupons;
-import kr.hhplus.be.server.payment.service.CouponService;
+import kr.hhplus.be.server.payment.domain.entity.Coupons;
+import kr.hhplus.be.server.payment.domain.service.CouponService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("coupons")
 @RequiredArgsConstructor
+// 클라이언트가 도메인 기능에 접근할 수 있도록 정의 (Service 인터페이스의 역할?)
 public class CouponController {
 
 

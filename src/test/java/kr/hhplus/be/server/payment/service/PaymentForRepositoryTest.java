@@ -14,8 +14,8 @@ import kr.hhplus.be.server.customer.entity.Customers;
 import kr.hhplus.be.server.customer.repository.CustomerRepository;
 import kr.hhplus.be.server.order.entity.Orders;
 import kr.hhplus.be.server.order.repository.OrderRepository;
-import kr.hhplus.be.server.payment.entity.Payments;
-import kr.hhplus.be.server.payment.repository.PaymentRepository;
+import kr.hhplus.be.server.payment.domain.entity.Payments;
+import kr.hhplus.be.server.payment.port.outbound.PaymentRepository;
 import kr.hhplus.be.server.product.entity.Products;
 import kr.hhplus.be.server.product.repository.ProductRepository;
 

@@ -1,13 +1,11 @@
-package kr.hhplus.be.server.payment.repository;
-
-import java.util.List;
+package kr.hhplus.be.server.payment.port.outbound;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import kr.hhplus.be.server.payment.entity.Coupons;
-import kr.hhplus.be.server.payment.entity.UserCoupons;
+import kr.hhplus.be.server.payment.domain.entity.UserCoupons;
 
+//리포지토리 및 외부 API 연결 인터페이스를 정의
 @Repository
 public interface UserCouponsRepository extends JpaRepository<UserCoupons, Long> {
 

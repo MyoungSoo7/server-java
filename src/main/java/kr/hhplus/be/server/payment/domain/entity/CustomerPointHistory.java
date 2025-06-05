@@ -1,13 +1,10 @@
-package kr.hhplus.be.server.payment.entity;
+package kr.hhplus.be.server.payment.domain.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kr.hhplus.be.server.customer.entity.Customers;
-import kr.hhplus.be.server.payment.dto.TransactionType;
+import kr.hhplus.be.server.payment.domain.dto.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,10 +20,10 @@ public class CustomerPointHistory {
 
 	@Id
 	@GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
-	long id;
-	long customerId;
-	int point;
-	TransactionType type;
-	long updateMillis;
+	private long id;
+	private long customerId;
+	private int point;
+	private TransactionType type;
+	private long updateMillis;
 
 }

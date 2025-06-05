@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.entity;
+package kr.hhplus.be.server.payment.domain.entity;
 
 import java.util.Date;
 import java.util.List;
