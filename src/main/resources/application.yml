@@ -14,6 +14,7 @@ spring:
     username: root
     password: 1005
     driver-class-name: org.mariadb.jdbc.Driver
+    #  ./kafka-server-start.sh config/server.properties
   jpa:
     open-in-view: false
     generate-ddl: false
@@ -23,13 +24,23 @@ spring:
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
       hibernate.jdbc.time_zone: UTC
-  #  ./kafka-server-start.sh config/server.properties
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha
+    tags-sorter: alpha
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
 
 #  redis:
 #    host: localhost
@@ -44,19 +55,6 @@ spring:
 #        max-wait: -1
 
 
-
-
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    disable-swagger-default-url: true
-    display-request-duration: true
-    operations-sorter: alpha
-    tags-sorter: alpha
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
 
 ---
 spring.config.activate.on-profile: local, test
