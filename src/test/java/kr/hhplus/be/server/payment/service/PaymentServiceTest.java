@@ -22,7 +22,7 @@ public class PaymentServiceTest {
 		long couponId = 1L;
 
 		//when
-		//paymentService.payOrder(customerId, orderId, quantity, couponId);
+	 
 
 		//then
 
