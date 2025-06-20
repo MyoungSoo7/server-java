@@ -35,16 +35,12 @@ public class PaymentService {
 	@Transactional
 	public void payOrderByPoint(Long customerId, Long orderId,  int quantity, Long couponId) {
 		Orders order = orderService.createOrder(customerId, orderId, quantity);
-
 		// 총 결제 금액 계산 (쿠폰 할인 포함)
 		int totalPrice = calculateTotalPriceWithDiscount(order.getTotalPrice(), couponId, customerId);
-
 		// 결제 및 주문 상태 갱신
 		deductUserPointsAndMarkOrderPaid(customerId, totalPrice, order);
-
 		// Kafka를 통해 주문 데이터 전송
 		publishOrderToKafka(order);
-
 	}
 
 	private int calculateTotalPriceWithDiscount(int originalPrice, Long couponId, Long customerId) {

@@ -103,12 +103,4 @@ classDiagram
   
 ```
 
-UserCoupons --> Customers : 사용자 연관 관계
-UserCoupons --> Coupons : 쿠폰 연관 관계
-
-    Customers "1" --> "*" Orders : 주문
-    Customers "1" --> "*" UserCoupons : 보유    
-    Orders "1" --> "*" Products : 포함
-    Orders "1" --> "0..1" Coupons : 사용
-    Orders "1" --> "1" Points : 결제
  
