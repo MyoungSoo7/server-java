@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.payment.adapter;
 
-import kr.hhplus.be.server.payment.domain.service.CouponService;
+import kr.hhplus.be.server.coupons.service.CouponService;
 import kr.hhplus.be.server.payment.domain.service.PointService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import kr.hhplus.be.server.customer.dto.CustomerDto;
 import kr.hhplus.be.server.customer.service.CustomerService;
 import kr.hhplus.be.server.order.entity.Orders;
 import kr.hhplus.be.server.order.service.OrderService;
-import kr.hhplus.be.server.payment.domain.entity.Coupons;
+import kr.hhplus.be.server.coupons.entity.Coupons;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

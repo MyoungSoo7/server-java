@@ -22,7 +22,7 @@ public class PaymentServiceTest {
 		long couponId = 1L;
 
 		//when
-	 
+
 
 		//then
 

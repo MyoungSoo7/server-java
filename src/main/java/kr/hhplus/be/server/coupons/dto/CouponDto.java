@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.domain.dto;
+package kr.hhplus.be.server.coupons.dto;
 
 import java.util.Date;
 

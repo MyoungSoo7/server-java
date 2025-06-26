@@ -11,6 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
+    /**
+     * OpenAPI 설정을 위한 Bean 생성
+     * Swagger UI에서 API 문서를 표시하기 위한 설정을 포함
+     *
+     * @return OpenAPI 인스턴스
+     */
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()

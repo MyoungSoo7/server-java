@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.payment.service;
 
+import kr.hhplus.be.server.points.service.PointServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,18 @@ class PointServiceImplTest {
     @Autowired
     private PointServiceImpl pointService;
 
+    /**
+     * 테스트 전 포인트 충전
+     * @throws Exception
+     */
     @BeforeEach
     void setUp() {
         pointService.charge(1L, 10000); // 테스트 전 초기화
     }
 
+    /**
+     * 포인트 충전 테스트
+     */
     @Test
     void 동시에_여러건_결제시_포인트_정합성_보장() throws Exception {
         int threadCount = 10;

@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.payment.service;
+package kr.hhplus.be.server.points.service;
 
 import org.springframework.stereotype.Service;
 import java.util.concurrent.atomic.AtomicInteger;

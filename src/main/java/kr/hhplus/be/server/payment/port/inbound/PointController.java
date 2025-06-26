@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hhplus.be.server.payment.domain.dto.CustomerPointHistoryDto;
+import kr.hhplus.be.server.points.dto.CustomerPointHistoryDto;
 import kr.hhplus.be.server.payment.domain.service.PointService;
 import lombok.RequiredArgsConstructor;
 
