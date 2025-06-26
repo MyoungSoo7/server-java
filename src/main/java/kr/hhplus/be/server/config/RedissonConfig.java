@@ -1,3 +1,4 @@
+/*
 package kr.hhplus.be.server.config;
 
 import org.redisson.Redisson;
@@ -18,11 +19,13 @@ public class RedissonConfig {
     @Value("${spring.redis.password:}")
     private String redisPassword;
 
-    /**
+    */
+/**
      * RedissonClient Bean 생성
      * Redis 서버에 연결하기 위한 설정을 포함
      * @return RedissonClient 인스턴스
-     */
+     *//*
+
     @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient() {
         Config config = new Config();
@@ -38,3 +41,4 @@ public class RedissonConfig {
         return Redisson.create(config);
     }
 }
+*/
