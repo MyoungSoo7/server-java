@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.payment.adapter;
 
-import kr.hhplus.be.server.payment.domain.service.CouponService;
+import kr.hhplus.be.server.coupons.service.CouponService;
 import kr.hhplus.be.server.payment.domain.service.PointService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import kr.hhplus.be.server.customer.dto.CustomerDto;
 import kr.hhplus.be.server.customer.service.CustomerService;
 import kr.hhplus.be.server.order.entity.Orders;
 import kr.hhplus.be.server.order.service.OrderService;
-import kr.hhplus.be.server.payment.domain.entity.Coupons;
+import kr.hhplus.be.server.coupons.entity.Coupons;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,16 +35,12 @@ public class PaymentService {
 	@Transactional
 	public void payOrderByPoint(Long customerId, Long orderId,  int quantity, Long couponId) {
 		Orders order = orderService.createOrder(customerId, orderId, quantity);
-
 		// 총 결제 금액 계산 (쿠폰 할인 포함)
 		int totalPrice = calculateTotalPriceWithDiscount(order.getTotalPrice(), couponId, customerId);
-
 		// 결제 및 주문 상태 갱신
 		deductUserPointsAndMarkOrderPaid(customerId, totalPrice, order);
-
 		// Kafka를 통해 주문 데이터 전송
 		publishOrderToKafka(order);
-
 	}
 
 	private int calculateTotalPriceWithDiscount(int originalPrice, Long couponId, Long customerId) {

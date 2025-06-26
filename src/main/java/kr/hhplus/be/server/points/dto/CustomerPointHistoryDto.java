@@ -1,5 +1,6 @@
-package kr.hhplus.be.server.payment.domain.dto;
+package kr.hhplus.be.server.points.dto;
 
+import kr.hhplus.be.server.payment.domain.dto.TransactionType;
 import lombok.Data;
 
 @Data

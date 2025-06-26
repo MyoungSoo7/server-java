@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hhplus.be.server.payment.domain.entity.Coupons;
-import kr.hhplus.be.server.payment.domain.service.CouponService;
+import kr.hhplus.be.server.coupons.entity.Coupons;
+import kr.hhplus.be.server.coupons.service.CouponService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

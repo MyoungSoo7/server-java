@@ -1,7 +1,6 @@
-package kr.hhplus.be.server.payment.domain.entity;
+package kr.hhplus.be.server.coupons.entity;
 
 import java.util.Date;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
