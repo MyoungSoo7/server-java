@@ -26,7 +26,7 @@ public class Payments {
     private Long orderId; // 주문 ID
     private int paymentPrice; // 결제금액
     // 포인트 = P
-    private String paymentMethod ="P"; // 결제 방법 (예: 포인트, 신용카드, 계좌이체, 간편결제 등)
+    private String paymentMethod; // 결제 방법 (예: 포인트, 신용카드, 계좌이체, 간편결제 등)
 
     private String paymentStatus; // 결제 상태 (예: 성공, 실패, 대기 중 등)
     private String paymentDate; // 결제 날짜
