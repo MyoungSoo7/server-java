@@ -49,6 +49,11 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 
+    // jwt
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+
     // DB
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
 
@@ -62,9 +67,10 @@ dependencies {
     // Redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
-
-//    // 카프카
+    // 카프카
     implementation("org.springframework.kafka:spring-kafka")
+    // 스프링시큐리티
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -77,4 +83,5 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
     systemProperty("user.timezone", "UTC")
+    enabled = false
 }

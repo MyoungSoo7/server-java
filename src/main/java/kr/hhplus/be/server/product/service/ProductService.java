@@ -1,16 +1,21 @@
 package kr.hhplus.be.server.product.service;
 
+import kr.hhplus.be.server.exception.ErrorCode;
+import kr.hhplus.be.server.exception.ProductOrderApplicationException;
 import kr.hhplus.be.server.order.repository.OrderRepository;
 import kr.hhplus.be.server.product.dto.ProductDto;
 import kr.hhplus.be.server.product.entity.Products;
+import kr.hhplus.be.server.product.repository.ProductRankingCacheRepository;
 import kr.hhplus.be.server.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,11 +23,32 @@ import java.util.stream.Collectors;
 public class ProductService {
 
 	private static final int TOP_PRODUCTS_LIMIT = 5;
+	private static final String secretKey = "swkey";
+	private static final Long expiredTimeMs = 2_592_000_000L; // 30일
 	private static final String STOCK_ERROR_MESSAGE = "재고는 0개 이하로 떨어질 수 없습니다.";
 	private static final String PRODUCT_NOT_FOUND = "상품을 찾을 수 없습니다. ID: ";
 	private final ProductRepository productRepository;
 	private final OrderRepository orderRepository;
+	private final BCryptPasswordEncoder encoder;
+	private final ProductRankingCacheRepository redisRepository;
 	private final ModelMapper modelMapper;
+
+	public Optional<ProductDto> loadProductDtoByProductDtoname(String productName)  {
+		return redisRepository.getProductDto(productName);
+	}
+
+	public String setProductRank(String productName) {
+		ProductDto savedProductDto = loadProductDtoByProductDtoname(productName)
+				.orElseThrow(()-> new ProductOrderApplicationException(
+					ErrorCode.PRODUCT_CAN_NOT_FOUND,
+					String.format("Product with name %s not found.", productName)
+				));
+
+		redisRepository.setProductDto(savedProductDto);
+
+		return "Rank has been set successfully.";
+	}
+
 
 	public ProductDto getProductById(long productId) {
 		Products product = validateProductExistence(productId);
