@@ -19,14 +19,28 @@ public class OrderService {
 	private final ProductService productService;
 	private final OrderRepository orderRepository;
 
+	/**
+	 * 주문 생성 메서드
+	 * @param customerId 고객 ID
+	 * @param productId 상품 ID
+	 * @param quantity 주문 수량
+	 * @return 생성된 주문 정보
+	 */
 	public Orders createOrder(Long customerId, Long productId, int quantity) {
 		// 상품 재고 확인 후 주문 생성 시 재고 감소
 		ProductDto product = validateProductStock(productId, quantity);
 		Orders order = buildOrder(customerId, productId, quantity, product);
 		productService.updateProductStock(productId, quantity);
+
 		return orderRepository.save(order);
 	}
 
+	/**
+	 * 상품 재고를 확인하고 부족 시 예외를 발생시키는 메서드
+	 * @param productId 상품 ID
+	 * @param quantity 주문 수량
+	 * @return 유효한 상품 정보
+	 */
 	private ProductDto validateProductStock(Long productId, int quantity) {
 		ProductDto productDto = productService.getProductById(productId);
 		if (productDto.getProductStock() < quantity) {
@@ -35,6 +49,14 @@ public class OrderService {
 		return productDto;
 	}
 
+	/**
+	 * 주문 정보를 생성하는 메서드
+	 * @param customerId 고객 ID
+	 * @param productId 상품 ID
+	 * @param quantity 주문 수량
+	 * @param productDto 상품 정보
+	 * @return 생성된 주문 엔티티
+	 */
 	private Orders buildOrder(Long customerId, Long productId, int quantity, ProductDto productDto) {
 		CustomerDto customer = customerService.getUserById(customerId);
 
