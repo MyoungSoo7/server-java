@@ -1,17 +1,17 @@
-version: '3'
-services:
-  mysql:
-    image: mariadb:latest
-    ports:
-      - "3307:3307"
-    environment:
-      - MYSQL_ROOT_PASSWORD=1005
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=1005
-      - MYSQL_DATABASE=api
-    volumes:
-      - ./data/mariadb/:/var/lib/mysql
-
-networks:
-  default:
-    driver: bridge
+#version: '3'
+#services:
+#  mysql:
+#    image: mariadb:latest
+#    ports:
+#      - "3307:3307"
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=1005
+#      - MYSQL_USER=root
+#      - MYSQL_PASSWORD=1005
+#      - MYSQL_DATABASE=api
+#    volumes:
+#      - ./data/mariadb/:/var/lib/mysql
+#
+#networks:
+#  default:
+#    driver: bridge
