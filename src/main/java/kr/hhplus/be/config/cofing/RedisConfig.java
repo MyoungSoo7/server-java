@@ -13,6 +13,11 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+
+/**
+ * Redis 설정 클래스
+ * Redis 데이터베이스와의 연결을 설정하고, RedisTemplate을 Bean으로 등록합니다.
+ */
 @Configuration
 @EnableRedisRepositories
 @RequiredArgsConstructor
