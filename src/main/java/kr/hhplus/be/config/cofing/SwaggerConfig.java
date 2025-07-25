@@ -8,6 +8,10 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Swagger 설정 클래스
+ * OpenAPI 문서를 생성하고 Swagger UI에서 API 문서를 표시하기 위한 설정을 포함합니다.
+ */
 @Configuration
 public class SwaggerConfig {
 

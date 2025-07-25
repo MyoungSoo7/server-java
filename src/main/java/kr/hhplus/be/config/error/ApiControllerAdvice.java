@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * ApiControllerAdvice 클래스
+ * 모든 컨트롤러에서 발생하는 예외를 처리하여 일관된 에러 응답을 제공합니다.
+ */
 @RestControllerAdvice
 class ApiControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = Exception.class)
